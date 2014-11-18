@@ -26,9 +26,9 @@
            (java.text SimpleDateFormat)
            (org.bson.types ObjectId)))
 
-(def gallery-path "gallleries")
+(def gallery-path "galleries")
 
-(def s3-cred (env :s3 { :access-key "key" :secret-key "your secret"}))
+(def s3-cred { :access-key (env :s3-access-key "key") :secret-key (env :s3-secret-key "your secret")})
 
 (defn geocode-url [latlng]
   (format "https://maps.googleapis.com/maps/api/geocode/json?latlng=%s,%s&key=AIzaSyBrVe0kS1yCrrRhv9QjDlSpBYKeYrr3vHM" (:latitude latlng) (:longitude latlng)))

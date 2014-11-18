@@ -13,6 +13,7 @@
             [environ.core :refer [env]]))
 
 (defn init []
+  (.mkdir (java.io.File. gallery-path))
   (println "where-was-that-photo-taken is starting"))
 
 (defn destroy []

@@ -34,9 +34,8 @@
     :dependencies [[ring-mock "0.1.5"] [ring/ring-devel "1.2.1"]]
     :env {
       :db-uri "mongo db uri"
-      :s3 {
-        :access-key "your key"
-        :secret-key "your secret"
+      :s3-access-key "your key"
+      :s3-secret-key "your secret"
       }
     }
    }
