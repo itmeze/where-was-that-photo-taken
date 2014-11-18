@@ -16,7 +16,7 @@
         <ul class="nav nav-pills pull-right">
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
-            {% if user %}
+            {% if context.user %}
             <li><a href="/my-photos">My photos</a></li>
             {% endif %}
         </ul>
