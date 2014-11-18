@@ -36,7 +36,4 @@
       :db-uri "mongo db uri"
       :s3-access-key "your key"
       :s3-secret-key "your secret"
-      }
-    }
-   }
-  })
+    }}})
