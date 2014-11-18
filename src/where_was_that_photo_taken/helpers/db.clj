@@ -6,7 +6,7 @@
   (:import 	(org.bson.types ObjectId)))
 
 
-(def mg-uri (env :db-uri))
+(def mg-uri (env :db-uri "this is a test db"))
 
 (defn with-conn 
 	[f]

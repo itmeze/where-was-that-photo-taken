@@ -28,7 +28,7 @@
 
 (def gallery-path "gallleries")
 
-(def s3-cred (env :s3))
+(def s3-cred (env :s3 { :access-key "key" :secret-key "your secret"}))
 
 (defn geocode-url [latlng]
   (format "https://maps.googleapis.com/maps/api/geocode/json?latlng=%s,%s&key=AIzaSyBrVe0kS1yCrrRhv9QjDlSpBYKeYrr3vHM" (:latitude latlng) (:longitude latlng)))

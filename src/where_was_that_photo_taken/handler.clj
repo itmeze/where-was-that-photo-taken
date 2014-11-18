@@ -8,7 +8,9 @@
             [compojure.route :as route]
             [where-was-that-photo-taken.routes.home :refer [home-routes]]
             [where-was-that-photo-taken.routes.upload :refer :all]
-            [noir.util.middleware :as noir-middleware]))
+            [noir.util.middleware :as noir-middleware]
+            [ring.adapter.jetty :as jetty]
+            [environ.core :refer [env]]))
 
 (defn init []
   (println "where-was-that-photo-taken is starting"))
@@ -23,5 +25,9 @@
 (def app (noir-middleware/app-handler
            [upload-routes
             app-routes]))
+
+(defn -main [& [port]]
+  (let [port (Integer. (or port (env :port) 5000))]
+    (jetty/run-jetty (handler/site #'app) {:port port :join? false})))
 
 
