@@ -1,0 +1,32 @@
+{% extends "templates/base.html" %}
+{% block content %}
+<h3>Your photos:</h3>
+{% if photos|length-is:0 %}
+<div class="alert alert-warning">
+    It looks like you have not uploaded photos yet...
+</div>
+{% endif %}
+
+<ul class="media-list">
+    {% for el in photos %}
+    <li class="media">
+        <a class="pull-left" href="/details/{{el._id}}">
+            <img class="media-object" src="{{el.path}}" alt="{{el.loc}}" style="max-height: 168px; width: 128px">
+        </a>
+        <div class="media-body">
+            {% if el.resolved %}
+            <span class="label label-success">resolved</span>
+            <p><h4 class="media-heading">{{el.loc}}</h4></p>
+            <h5 class="media-heading">Lat: {{el.geo-tag.latitude|double-format:5}} Lng: {{el.geo-tag.longitude|double-format:5}}</h4>
+                {% else %}
+                <span class="label label-warning">not resolved</span>
+                <p></p>
+                <p>
+                    <a href="/details/{{el._id}}" class="btn btn-primary">Help!</a>
+                </p>
+                {% endif %}
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

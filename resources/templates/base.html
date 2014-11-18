@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to where-was-that-photo-taken</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/screen.css" rel="stylesheet" type="text/css">
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <ul class="nav nav-pills pull-right">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            {% if user %}
+            <li><a href="/my-photos">My photos</a></li>
+            {% endif %}
+        </ul>
+        <h3 class="text-muted">Where was that photo taken?</h3>
+    </div>
+    {% with flash=context.flash %}
+    {% if flash.success %}
+    <div class="alert alert-success">
+        {{flash.success}}
+    </div>
+    {% endif %}
+    {% if flash.info %}
+    <div class="alert alert-info">
+        {{flash.info}}
+    </div>
+    {% endif %}
+    {% if flash.warning %}
+    <div class="alert alert-warning">
+        {{flash.warning}}
+    </div>
+    {% endif %}
+    {% if flash.error %}
+    <div class="alert alert-error">
+        {{flash.error}}
+    </div>
+    {% endif %}
+    {% endwith %}
+    {% block content %}
+    {% endblock %}
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+{% block scripts %}
+{% endblock %}
+</body>
+</html>

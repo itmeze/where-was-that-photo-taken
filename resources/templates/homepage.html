@@ -1,0 +1,43 @@
+{% extends "templates/base.html" %}
+{% block content %}
+<div class="jumbotron">
+    <h2>Upload a photo</h2>
+    <h3>We will try to figure out where was that photo taken!</h3>
+
+    <p>{{info}}</p>
+
+    <form action="/upload" enctype="multipart/form-data" method="POST">
+        <p>
+            <input id="file" name="file" type="file">
+        </p>
+
+        <p>
+            <input type="submit" class="btn btn-primary btn-lg" value="Upload">
+        </p>
+    </form>
+</div>
+<hr />
+<h3>Recently uploaded photos:</h3>
+<ul class="media-list">
+  {% for el in recent %}
+  <li class="media">
+    <a class="pull-left" href="/details/{{el._id}}">
+      <img class="media-object" src="{{el.path}}" alt="{{el.loc}}" style="max-height: 168px; width: 128px">
+    </a>
+    <div class="media-body">
+      {% if el.resolved %}
+        <span class="label label-success">resolved</span>
+        <p><h4 class="media-heading">{{el.loc}}</h4></p>
+        <h5 class="media-heading">Lat: {{el.geo-tag.latitude|double-format:5}} Lng: {{el.geo-tag.longitude|double-format:5}}</h4>
+      {% else %}
+        <span class="label label-warning">not resolved</span>
+        <p></p>
+        <p>
+            <a href="/details/{{el._id}}" class="btn btn-primary">Help!</a>
+        </p>
+      {% endif %}
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

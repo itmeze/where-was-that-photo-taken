@@ -1,0 +1,49 @@
+{% extends "templates/base.html" %}
+{% block content %}
+
+<h2>Uh! We do NOT know where was that photo taken!</h2>
+<p>
+    <img class="media" src="{{path}}" alt="your image" />
+</p>
+
+{% ifequal context.user user %}
+<hr />
+<p>If you find out where was it taken, leave it's location:</p>
+<form action="/mark-as-resolved/{{ _id }}" method="POST" class="inline">
+    <input name="loc" type="text" placeholder="Enter location..." required>
+    <input type="submit" class="btn btn-primary" value="Submit!">
+</form>
+<br />
+{% if visible %}
+<form action="/remove/{{ _id }}" method="POST" class="form-inline" role="form">
+    <p>This picture is currently visible for all</p>
+    <p>You can take this picture offline <button type="submit" class="btn btn-default">Remove</button></p>
+</form>
+{% else %}
+<form action="/show/{{ _id }}" method="POST" class="form-inline" role="form">
+    <p>This picture is currently hidden (does not show up for others).</p>
+    <p>You can make this picture online <button type="submit" class="btn btn-primary">Show</button></p>
+</form>
+{% endif %}
+{% else %}
+<p>Leave a comment below and help to resolve photo's location!
+{% endifequal %}
+
+
+
+<div id="disqus_thread"></div>
+{% endblock %}
+{% block scripts %}
+
+<script type="text/javascript">
+        var disqus_shortname = 'wherewasthatphototakencom';
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+{% endblock %}

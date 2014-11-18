@@ -1,0 +1,74 @@
+{% extends "templates/base.html" %}
+{% block content %}
+
+<h2>Great! It looks like we know where that photo was taken!</h2>
+<p>
+    <img class="media" src="{{path}}" alt="your image" />
+</p>
+{% if geo-tag %}
+<p>Most likely this photo was taken at latitude: {{geo-tag.latitude|double-format:5}}, longitude: {{geo-tag.longitude|double-format:5}}</p>
+{% endif %}
+
+<h3>{% ifequal context.user user  %} Your {% else %} This {% endifequal %} photo was taken: ({{loc}})</h3>
+
+{% if geo-tag %}
+<div style="height:400px">
+    <div id="map-canvas"></div>
+</div>
+{% endif %}
+
+{% ifequal context.user user %}
+<hr />
+<p>If you think this is not correct:</p>
+<form action="/mark-as-unresolved/{{ _id }}" method="POST">
+    <input type="submit" class="btn btn-lg" value="This was not correct, i want community to help me!">
+</form>
+<br />
+{% if visible %}
+<form action="/remove/{{ _id }}" method="POST" class="form-inline" role="form">
+    <p>You can take this picture offline <button type="submit" class="btn btn-default">Remove</button></p>
+</form>
+{% else %}
+<form action="/show/{{ _id }}" method="POST" class="form-inline" role="form">
+    <p>You can make this picture online <button type="submit" class="btn btn-primary">Show</button></p>
+</form>
+{% endif %}
+{% endifequal %}
+
+<div id="disqus_thread"></div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEkqn6qm-UdSzxTQXMYD0O9hc0svPnMeI">
+</script>
+{% if geo-tag %}
+<script type="text/javascript">
+    function initialize() {
+        var latlng = new google.maps.LatLng({{geo-tag.latitude}}, {{geo-tag.longitude}});
+        var mapOptions = {
+          center: latlng,
+          zoom: 12
+        };
+
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        var marker = new google.maps.Marker({
+            position: latlng,
+            map: map
+        });
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+{% endif %}
+<script type="text/javascript">
+        var disqus_shortname = 'wherewasthatphototakencom';
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+{% endblock %}

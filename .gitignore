@@ -1,0 +1,17 @@
+/target
+/lib
+/classes
+/checkouts
+pom.xml
+*.jar
+*.class
+.lein-deps-sum
+.lein-failures
+.lein-plugins
+.lein-env
+.lein-repl-history
+where_was_that_photo_taken.iml
+.nrepl-port
+/uploads
+/.idea
+profiles.clj
