@@ -116,6 +116,7 @@
   (not= (:latitude geo-tag) 0.0)) ;kind of tricky...
 
 (defn handle-upload [{:keys [filename] :as file}]
+  (println "handling upload")
   (cond
     (empty? filename)
     (upload-page "please select file for upload")
@@ -123,6 +124,7 @@
     (upload-page "uploaded file is not an image")
     :else
     (do
+      (println "final gallery upload")
       (upload-file file gallery-path)
       (let
         [resized-file-path (resize-file (with-file (file-path gallery-path filename)) 480)
