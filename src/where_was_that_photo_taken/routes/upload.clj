@@ -20,15 +20,12 @@
             [environ.core :refer [env]]
             [where-was-that-photo-taken.helpers.db :as db])
   (:import [java.io File]
-           [com.mongodb MongoOptions ServerAddress]
-           [org.bson.types.ObjectId]
-           (java.util Calendar Date UUID TimeZone Locale)
-           (java.text SimpleDateFormat)
+           (java.util Date)
            (org.bson.types ObjectId)))
 
-(def gallery-path "galleries")
+(def gallery-path "/tmp")
 
-(def s3-cred { :access-key (env :s3-access-key "key") :secret-key (env :s3-secret-key "your secret")})
+(def s3-cred { :access-key (env :s3-access-key "key") :secret-key (env :s3-secret-key "secret")})
 
 (defn geocode-url [latlng]
   (format "https://maps.googleapis.com/maps/api/geocode/json?latlng=%s,%s&key=AIzaSyBrVe0kS1yCrrRhv9QjDlSpBYKeYrr3vHM" (:latitude latlng) (:longitude latlng)))
@@ -124,9 +121,11 @@
     (upload-page "uploaded file is not an image")
     :else
     (do
+      (println file)
       (upload-file file gallery-path)
       (let
-        [resized-file-path (resize-file (with-file (file-path gallery-path filename)) 480)
+        [
+         resized-file-path (resize-file (with-file (file-path gallery-path filename)) 480)
          s3-path (upload-to-s3 (with-file resized-file-path) filename s3-cred)
          geo-tag (geo-tag-path (file-path gallery-path filename))
          loc (get-location geo-tag)]
