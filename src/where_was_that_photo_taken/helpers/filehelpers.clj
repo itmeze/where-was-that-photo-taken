@@ -24,13 +24,15 @@
   [path]
   (io/file path))
 
-(defn upload-to-s3
+(defn resize-and-upload-to-s3
   ([file cred]
-   (upload-to-s3 file (.getName file) cred))
+   (resize-and-upload-to-s3 file (.getName file) cred))
   ([file new-name cred]
-   (let [key (str (UUID/randomUUID) "/" new-name)]
-    (s3/put-object cred "where-was-that-photo-taken" key file {} (s3/grant :all-users :read))
-    (str "https://s3.amazonaws.com/where-was-that-photo-taken/" key))))
+   (let [key (str (UUID/randomUUID) "/" new-name)
+         resized-stream (format/as-stream (resize file 640 640) "jpg")
+         bucket "where-was-that-photo-taken"]
+    (s3/put-object cred bucket key resized-stream {:content-type "image/jpeg" :content-length (.available resized-stream)} (s3/grant :all-users :read))
+    (str "https://s3.amazonaws.com/" bucket "/" key))))
 
 (defn geo-tag-file
   [file]
