@@ -122,7 +122,7 @@
     :else
     (do
       (println file)
-      (upload-file file gallery-path)
+      ;(upload-file file gallery-path)
       (let
         [
          ;resized-file-path (resize-file (with-file (file-path gallery-path filename)) 480)
