@@ -20,6 +20,7 @@
   :aot :all
   :java-source-paths ["src/main/java"]
   :min-lein-version "2.0.0"
+  :uberjar-name "where-was-that-photo-taken.jar"
   :uberwar-name "where-was-that-photo-taken.war"
   :profiles {
     :production
