@@ -23,7 +23,7 @@
            (java.util Date)
            (org.bson.types ObjectId)))
 
-(def gallery-path "/tmp")
+(def gallery-path "galleries")
 
 (def s3-cred { :access-key (env :s3-access-key "key") :secret-key (env :s3-secret-key "secret")})
 
@@ -125,12 +125,14 @@
       (upload-file file gallery-path)
       (let
         [
-         resized-file-path (resize-file (with-file (file-path gallery-path filename)) 480)
-         s3-path (upload-to-s3 (with-file resized-file-path) filename s3-cred)
-         geo-tag (geo-tag-path (file-path gallery-path filename))
+         ;resized-file-path (resize-file (with-file (file-path gallery-path filename)) 480)
+         ;s3-path (upload-to-s3 (with-file resized-file-path) filename s3-cred)
+         ;geo-tag (geo-tag-path (file-path gallery-path filename))
+         s3-path (upload-to-s3 (:tempfile file) (:filename file) s3-cred)
+         geo-tag (geo-tag-path (.getAbsolutePath (:tempfile file)))
          loc (get-location geo-tag)]
-        (io/delete-file resized-file-path)
-        (io/delete-file (file-path gallery-path filename))
+        ;(io/delete-file resized-file-path)
+        ;(io/delete-file (file-path gallery-path filename))
         (let [info {:geo-tag geo-tag :path s3-path :loc loc}
               final (assoc info :_id (ObjectId.) :date (Date.) :user (get-or-set-user-tracker))]
           (db/with-conn (fn [conn-obj]
