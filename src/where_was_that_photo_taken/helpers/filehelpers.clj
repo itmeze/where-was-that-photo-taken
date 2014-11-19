@@ -13,7 +13,9 @@
            (java.util UUID)
            (java.net URLDecoder)
            (java.awt.image BufferedImage)
-           (javax.imageio ImageIO)))
+           (javax.imageio ImageIO)
+           (java.awt Graphics RenderingHints)
+           (java.awt.geom AffineTransform)))
 
 (defn file-path [path & [filename]]
   (URLDecoder/decode (str path File/separator filename) "utf-8"))
@@ -29,10 +31,10 @@
 
 (defn resize-to-byte-array
   [file]
-  (let [bi (ImageIO/read file)
-         thumb (resize bi 640)
-         out (ByteArrayOutputStream.)]
-    (ImageIO/write thumb "jpg" out)
+  (let [ort-bi (ImageIO/read file)
+        res-bi (ImageResizer/getScaledImage ort-bi (int 640))
+        out (ByteArrayOutputStream.)]
+    (ImageIO/write res-bi "jpg" out)
     (ByteArrayInputStream. (.toByteArray out))))
 
 (defn resize-and-upload-to-s3
