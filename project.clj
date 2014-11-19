@@ -13,7 +13,7 @@
                  [org.clojure/data.json "0.2.5"]
                  [environ "1.0.0"]
                  [ring/ring-jetty-adapter "1.2.2"]]
-  :plugins [[lein-ring "0.8.10"] [lein-environ "0.4.0"]]
+  :plugins [[lein-ring "0.8.13"] [lein-environ "0.4.0"]]
   :ring {:handler where-was-that-photo-taken.handler/app
          :init where-was-that-photo-taken.handler/init
          :destroy where-was-that-photo-taken.handler/destroy}
