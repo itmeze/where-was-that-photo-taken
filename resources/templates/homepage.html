@@ -28,7 +28,9 @@
       {% if el.resolved %}
         <span class="label label-success">resolved</span>
         <p><h4 class="media-heading">{{el.loc}}</h4></p>
+        {% if el.geo-tag %}
         <h5 class="media-heading">Lat: {{el.geo-tag.latitude|double-format:5}} Lng: {{el.geo-tag.longitude|double-format:5}}</h4>
+        {% endif %}
       {% else %}
         <span class="label label-warning">not resolved</span>
         <p></p>
