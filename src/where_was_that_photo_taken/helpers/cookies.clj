@@ -17,7 +17,7 @@
     (cookie/get :tracker)
     (let [tracker (UUID/randomUUID)]
         (cookie/put! :tracker {:value tracker :path "/" :expires (to-cookie-expiry-string (addDays (Date.) 356))})
-        tracker)))
+        (.toString tracker))))
 
 (defn get-user-tracker []
   (cookie/get :tracker))

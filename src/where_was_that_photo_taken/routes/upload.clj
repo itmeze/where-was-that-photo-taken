@@ -129,7 +129,7 @@
          geo-tag (geo-tag-path (.getAbsolutePath (:tempfile file)))
          loc (get-location geo-tag)]
         (let [info {:geo-tag geo-tag :path s3-path :loc loc}
-              final (assoc info :_id (ObjectId.) :date (Date.) :user (get-or-set-user-tracker) :date (java.util.Date.))]
+              final (assoc info :_id (ObjectId.) :date (.toString (Date.)) :user (get-or-set-user-tracker) :date ())]
           (db/with-conn (fn [conn-obj]
           (if (is-valid-geotag geo-tag)
             (do
