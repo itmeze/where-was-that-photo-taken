@@ -1,21 +1,12 @@
 (ns where-was-that-photo-taken.helpers.filehelpers
   (:require [clojure.java.io :as io]
-            ;[image-resizer.resize :refer :all]
-            ;[image-resizer.scale-methods :refer :all]
-            ;[image-resizer.format :as format]
-            ;[image-resizer.core :refer :all]
             [aws.sdk.s3 :as s3]
-            [noir.io :as noir-io]
-            [mikera.image.core :refer :all])
-  (:import [java.io File FileInputStream FileOutputStream ByteArrayOutputStream ByteArrayInputStream]
+            [noir.io :as noir-io])
+  (:import [java.io File ByteArrayOutputStream ByteArrayInputStream]
            (main.java JpegGeoTagReader)
-           (org.apache.commons.io IOUtils)
            (java.util UUID)
            (java.net URLDecoder)
-           (java.awt.image BufferedImage)
-           (javax.imageio ImageIO)
-           (java.awt Graphics RenderingHints)
-           (java.awt.geom AffineTransform)))
+           (javax.imageio ImageIO)))
 
 (defn file-path [path & [filename]]
   (URLDecoder/decode (str path File/separator filename) "utf-8"))
@@ -44,9 +35,9 @@
    (let [key (str (UUID/randomUUID) "/" new-name)
          ;resized (resize file 640 640)
          ;resized-stream (format/as-stream resized "jpg")
-         resized-stream (resize-to-byte-array file)
+         ;resized-stream (resize-to-byte-array file)
          bucket "where-was-that-photo-taken"]
-    (s3/put-object cred bucket key resized-stream {:content-type "image/jpeg" :content-length (.available resized-stream)} (s3/grant :all-users :read))
+    (s3/put-object cred bucket key file {} (s3/grant :all-users :read))
     (str "https://s3.amazonaws.com/" bucket "/" key))))
 
 (defn geo-tag-file

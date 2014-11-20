@@ -11,7 +11,7 @@
     {% for el in photos %}
     <li class="media">
         <a class="pull-left" href="/details/{{el._id}}">
-            <img class="media-object" src="{{el.path}}" alt="{{el.loc}}" style="max-height: 168px; width: 128px">
+            <img class="media-object" src="http://szoy5s.cloudimage.io/s/resizenp/200x200/{{el.path}}" alt="{{el.loc}}" style="width: 200px">
         </a>
         <div class="media-body">
             {% if el.resolved %}

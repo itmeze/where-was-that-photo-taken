@@ -3,6 +3,11 @@ import java.awt.image.BufferedImage;
 
 public class ImageResizer {
 
+    /*
+    Examples taken from Stackoverflow.com
+    None of them work on heroku at the time of writing
+     */
+
     public static BufferedImage resizeImage(BufferedImage origImage, Integer width, Integer height) {
             int type = origImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : origImage.getType();
 

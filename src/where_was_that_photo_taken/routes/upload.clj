@@ -115,14 +115,17 @@
 (defn handle-upload [{:keys [filename] :as file}]
   (cond
     (empty? filename)
-    (upload-page "please select file for upload")
+    (do
+      (session/flash-put! :error "You haven't selected a file")
+      (resp/redirect-after-post "/"))
     (not (is-img file))
-    (upload-page "uploaded file is not an image")
+    (do
+      (session/flash-put! :error "Selected file is not an image")
+      (resp/redirect-after-post "/"))
     :else
     (do
       (let
-        [
-         s3-path (resize-and-upload-to-s3 (:tempfile file) (:filename file) s3-cred)
+        [s3-path (resize-and-upload-to-s3 (:tempfile file) (:filename file) s3-cred)
          geo-tag (geo-tag-path (.getAbsolutePath (:tempfile file)))
          loc (get-location geo-tag)]
         (let [info {:geo-tag geo-tag :path s3-path :loc loc}
