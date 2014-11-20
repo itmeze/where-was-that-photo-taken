@@ -129,7 +129,7 @@
          geo-tag (geo-tag-path (.getAbsolutePath (:tempfile file)))
          loc (get-location geo-tag)]
         (let [info {:geo-tag geo-tag :path s3-path :loc loc}
-              final (assoc info :_id (ObjectId.) :date (Date.) :user (get-or-set-user-tracker))]
+              final (assoc info :_id (ObjectId.) :date (Date.) :user (get-or-set-user-tracker) :date (java.util.Date.))]
           (db/with-conn (fn [conn-obj]
           (if (is-valid-geotag geo-tag)
             (do
@@ -137,7 +137,7 @@
               (session/flash-put! :success "Great! We have managed to resolve pictures's location")
               (resp/redirect-after-post (format "/details/%s" (:_id final))))
             (do
-              (mc/insert (:db conn-obj) "photos" (assoc final :resolved false :visible false :geo-tag nil))
+              (mc/insert (:db conn-obj) "photos" (assoc final :resolved false :visible true :geo-tag nil))
               (session/flash-put! :warning "Sorry, we couldn't resolve pictures's location")
               (resp/redirect-after-post (format "/details/%s" (:_id final))))))))))))
 
