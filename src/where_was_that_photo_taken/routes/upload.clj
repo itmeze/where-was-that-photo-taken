@@ -49,7 +49,7 @@
   (let [recent (db/with-conn
     (fn [conn]
       (doall (with-collection (:db conn) "photos"
-              (find {})
+              (find {:visible true})
               (fields [:path :loc :resolved :geo-tag])
               (sort (array-map :date -1))
               (limit 10)))))]
