@@ -34,6 +34,7 @@ To start a web server for the application, run:
     
 ## Hosting 
 
+This web app is adoped to be used on heroku. You can view it: www.wherewasthatphototaken.com 
 
 ## License
 
