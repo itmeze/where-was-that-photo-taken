@@ -8,6 +8,7 @@ Since i started my journey with clojure i was missing tutorials/apps that would 
 
 Fairy simple application written in Clojure that may help newcomers to touch various aspects of web development like:
 
+- java interop, java code within project
 - routing with compojure
 - session, cookies, post-redirect-get pattern using lib-noir
 - page tempates via Selmer
