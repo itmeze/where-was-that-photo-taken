@@ -9,7 +9,7 @@
                  [image-resizer "0.1.6"]
                  [clj-aws-s3 "0.3.10"]
                  [selmer "0.7.2"]
-                 [com.novemberain/monger "2.0.0"]
+                 [com.novemberain/monger "3.0.0-rc1"]
                  [org.clojure/data.json "0.2.5"]
                  [environ "1.0.0"]
                  [ring/ring-jetty-adapter "1.2.2"]]
